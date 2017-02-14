@@ -1,16 +1,26 @@
 package com.leafplain.excercise.googlevr;
 
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
+import com.leafplain.excercise.googlevr.util.AssetStreamUtil;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -20,10 +30,18 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
+import java.io.StringReader;
+import java.util.List;
 
 public class ActivityVRPhoto extends AppCompatActivity {
 
     private static final String TAG = ActivityVRPhoto.class.getSimpleName();
+
+    private Context mContext = null;
+    private RecyclerView recyclerView;
+    private List<PhotoItemInfo> images;
+    
     /** Actual panorama widget. **/
     private VrPanoramaView panoWidgetView;
     /**
@@ -40,17 +58,17 @@ public class ActivityVRPhoto extends AppCompatActivity {
 
     private static final int  FILE_FROM_LOCAL    = 0;
     private static final int  FILE_FROM_URL      = 1;
-    class PhotoInfo{
-        public int formType = FILE_FROM_LOCAL;
-        public String filePath  = "" ;
-        public VrPanoramaView.Options options = new VrPanoramaView.Options();
-    }
+//    class PhotoInfo{
+//        public int formType = FILE_FROM_LOCAL;
+//        public String filePath  = "" ;
+//        public VrPanoramaView.Options options = new VrPanoramaView.Options();
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vrphoto);
-
+        mContext = this;
 
         // ImageLoader 初始設定
         options = new DisplayImageOptions.Builder()
@@ -78,36 +96,143 @@ public class ActivityVRPhoto extends AppCompatActivity {
         panoWidgetView = (VrPanoramaView) findViewById(R.id.pano_view);
         panoWidgetView.setEventListener(new ActivityEventListener());
 
-        PhotoInfo photoInfo = new PhotoInfo();
-        VrPanoramaView.Options panoOptions = new VrPanoramaView.Options();
-
-        /*
-        * Below Photo File From Assets
-        * */
-//        photoInfo.formType = FILE_FROM_LOCAL;
-//        photoInfo.filePath = "girl_2.jpg";
+//        PhotoInfo photoInfo = new PhotoInfo();
+//        VrPanoramaView.Options panoOptions = new VrPanoramaView.Options();
+//
+//        /*
+//        * Below Photo File From Assets
+//        * */
+////        photoInfo.formType = FILE_FROM_LOCAL;
+////        photoInfo.filePath = "girl_2.jpg";
+//////        panoOptions.inputType = VrPanoramaView.Options.TYPE_STEREO_OVER_UNDER;
+////        panoOptions.inputType = VrPanoramaView.Options.TYPE_MONO;
+////        photoInfo.options = panoOptions;
+//
+//        /*
+//        * Below Photo File From URL
+//        * */
+//        photoInfo.formType = FILE_FROM_URL;
+//        photoInfo.filePath = "http://www.roadtovr.com/wp-content/uploads/2014/09/Venice.Still001.jpeg";
 ////        panoOptions.inputType = VrPanoramaView.Options.TYPE_STEREO_OVER_UNDER;
 //        panoOptions.inputType = VrPanoramaView.Options.TYPE_MONO;
 //        photoInfo.options = panoOptions;
 
-        /*
-        * Below Photo File From URL
-        * */
-        photoInfo.formType = FILE_FROM_URL;
-        photoInfo.filePath = "http://www.roadtovr.com/wp-content/uploads/2014/09/Venice.Still001.jpeg";
-//        panoOptions.inputType = VrPanoramaView.Options.TYPE_STEREO_OVER_UNDER;
-        panoOptions.inputType = VrPanoramaView.Options.TYPE_MONO;
-        photoInfo.options = panoOptions;
+//        startLoadPhoto(photoInfo);
 
-        startLoadPhoto(photoInfo);
+        recyclerView  = (RecyclerView) findViewById(R.id.recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+
+        parsingData();
     }
 
     public DisplayImageOptions options;
     public ImageLoader imageLoader ;
 
-    private void startLoadPhoto(ActivityVRPhoto.PhotoInfo photoInfo){
-        final VrPanoramaView.Options panoOptions = photoInfo.options;  // It's safe to use null VrPanoramaView.Options.
-        int formType    = photoInfo.formType;
+
+    private void parsingData(){
+        Log.d(TAG,"parsingData");
+        AssetStreamUtil asuObj;
+        asuObj = new AssetStreamUtil(mContext);
+        String data = asuObj.getAssetString("image.json");
+        try {
+            PhotoList mPhotoList;
+            StringReader jsonSR  = new StringReader(data);
+            GsonBuilder gsonb = new GsonBuilder();
+            Gson gson = gsonb.create();
+
+            JsonReader reader = new JsonReader(jsonSR);
+            reader.setLenient(true);
+            mPhotoList = gson.fromJson(reader, PhotoList.class);
+            images = mPhotoList.images;
+
+            PhotoItemInfo mPhotoItemInfo = images.get(0);
+            startLoadPhoto(mPhotoItemInfo);
+
+            RecyclerViewAdapter mRecyclerViewAdapter = new RecyclerViewAdapter(images);
+            recyclerView.setAdapter(mRecyclerViewAdapter);
+
+        } catch (Exception e) {
+            Log.d(TAG,"parsingData Exception:"+e.toString());
+        }
+    }
+
+    public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+        private  List<PhotoItemInfo> images;
+
+        public RecyclerViewAdapter(List<PhotoItemInfo> images){
+            this.images   = images;
+        }
+
+        @Override
+        public int getItemCount() {
+            return images.size();
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return 1;
+        }
+
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            RecyclerView.ViewHolder viewHolder = null;
+            LayoutInflater mInflater = LayoutInflater.from(parent.getContext());
+            View vHolderEvent = mInflater.inflate(R.layout.item_cell, parent, false);
+            viewHolder = new HolderListItem(vHolderEvent);
+            return viewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+            PhotoItemInfo mPhotoItemInfo = images.get(position);
+            HolderListItem holderListItem  = (HolderListItem) viewHolder;
+            holderListItem.titleTV.setText(mPhotoItemInfo.title);
+            holderListItem.clickView.setTag(mPhotoItemInfo);
+            holderListItem.clickView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    PhotoItemInfo mPhotoItemInfo = (PhotoItemInfo) view.getTag();
+                    startLoadPhoto(mPhotoItemInfo);
+
+                }
+            });
+        }
+
+        public void destroy(){
+        }
+    }
+
+    public class HolderListItem extends RecyclerView.ViewHolder{
+        public View clickView;
+        public TextView titleTV;
+
+        public HolderListItem(View itemView) {
+            super(itemView);
+            clickView  = itemView.findViewById(R.id.clickView);
+            titleTV    = (TextView) itemView.findViewById(R.id.titleTV);
+        }
+    }
+
+    public static class PhotoList implements Serializable {
+        public List<PhotoItemInfo> images ;
+    }
+
+    public static class PhotoItemInfo implements Serializable {
+        public String title = "";
+        public String filePath = "";
+        public String image = "";
+        public String desc = "";
+        public int formType ;
+        public int optionsType ;
+    }
+
+    private void startLoadPhoto(PhotoItemInfo photoInfo){
+        final VrPanoramaView.Options panoOptions = new VrPanoramaView.Options();
+        panoOptions.inputType   = photoInfo.optionsType;
+        int formType            = photoInfo.formType;
         final String filePath = photoInfo.filePath;
         Log.i(TAG, "formType: " + photoInfo.formType);
         Log.i(TAG, "filePath: " + photoInfo.filePath);
