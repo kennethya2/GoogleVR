@@ -23,6 +23,54 @@
       "desc": "",
       "formType":1,
       "optionsType":1
+    },
+    {
+      "title": "Statue",
+      "filePath": "https://raw.githubusercontent.com/kennethya2/GoogleVR/master/vr-resource/image/statue.jpg",
+      "image": "",
+      "desc": "",
+      "formType":1,
+      "optionsType":1
+    },
+    {
+      "title": "Street Corner",
+      "filePath": "https://raw.githubusercontent.com/kennethya2/GoogleVR/master/vr-resource/image/street-corner.jpg",
+      "image": "",
+      "desc": "",
+      "formType":1,
+      "optionsType":1
+    },
+    {
+      "title": "Square",
+      "filePath": "https://raw.githubusercontent.com/kennethya2/GoogleVR/master/vr-resource/image/square.jpg",
+      "image": "",
+      "desc": "",
+      "formType":1,
+      "optionsType":1
+    },
+    {
+      "title": "Room",
+      "filePath": "https://raw.githubusercontent.com/kennethya2/GoogleVR/master/vr-resource/image/room.jpg",
+      "image": "",
+      "desc": "",
+      "formType":1,
+      "optionsType":1
+    },
+    {
+      "title": "Musical",
+      "filePath": "https://raw.githubusercontent.com/kennethya2/GoogleVR/master/vr-resource/image/musical.jpg",
+      "image": "",
+      "desc": "",
+      "formType":1,
+      "optionsType":1
+    },
+    {
+      "title": "Island",
+      "filePath": "https://raw.githubusercontent.com/kennethya2/GoogleVR/master/vr-resource/image/island.jpg",
+      "image": "",
+      "desc": "",
+      "formType":1,
+      "optionsType":1
     }
 ]
 }
