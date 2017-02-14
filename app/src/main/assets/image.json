@@ -2,7 +2,23 @@
   "images": [
     {
       "title": "River",
-      "filePath": "http://www.roadtovr.com/wp-content/uploads/2014/09/Venice.Still001.jpeg",
+      "filePath": "https://raw.githubusercontent.com/kennethya2/GoogleVR/master/vr-resource/image/river.jpeg",
+      "image": "",
+      "desc": "",
+      "formType":1,
+      "optionsType":1
+    },
+    {
+      "title": "Oracle Arena",
+      "filePath": "https://raw.githubusercontent.com/kennethya2/GoogleVR/master/vr-resource/image/oakland-arena-panorama.jpg",
+      "image": "",
+      "desc": "",
+      "formType":1,
+      "optionsType":1
+    },
+    {
+      "title": "Statue",
+      "filePath": "https://raw.githubusercontent.com/kennethya2/GoogleVR/master/vr-resource/image/statue.jpg",
       "image": "",
       "desc": "",
       "formType":1,
