@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/main_layout"
+        android:padding="10dip"
+        android:orientation="vertical" >
+
+
+        <com.google.vr.sdk.widgets.video.VrVideoView
+            android:id="@+id/video_view"
+            android:layout_width="match_parent"
+            android:scrollbars="@null"
+            android:layout_height="250dip"/>
+
+        <RelativeLayout
+            android:id="@+id/timeRL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            >
+            <TextView
+                android:id="@+id/currentTimeTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:textSize="@dimen/caption_text_size"
+                android:text="00:00"/>
+
+            <TextView
+                android:id="@+id/durationTimeTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/caption_text_size"
+                android:layout_alignParentRight="true"
+                android:text="00:00"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:background="@android:color/transparent"
+                android:id="@+id/stopBTN"
+                android:paddingTop="4dp"
+                android:paddingStart="0dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/stop"/>
+
+            <ImageButton
+                android:background="@android:color/transparent"
+                android:id="@+id/playBTN"
+                android:paddingTop="4dp"
+                android:paddingStart="0dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/play"/>
+            <!-- Seeking UI & progress indicator.-->
+            <SeekBar
+                android:id="@+id/seek_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_height="32dp"
+                android:layout_weight="8"
+                android:layout_width="0dp"/>
+            <ImageButton
+                android:background="@android:color/transparent"
+                android:id="@+id/volume_toggle"
+                android:paddingTop="4dp"
+                android:paddingStart="0dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/volume_on"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/status_text"
+            android:text="Loading Video..."
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:textSize="@dimen/caption_text_size"
+            android:visibility="gone"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"/>
+
+
+
+    </LinearLayout>
+</ScrollView>
