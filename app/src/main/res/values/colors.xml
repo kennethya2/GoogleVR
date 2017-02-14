@@ -8,4 +8,27 @@
     <color name="textDark">#222</color>
     <color name="textLight">#555</color>
 
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!--覆蓋圖片 不透明度的百分比 -->
+    <color name="cover_bg_95">#f2000000</color>
+    <color name="cover_bg_90">#d9000000</color>
+    <color name="cover_bg_85">#d9000000</color>
+    <color name="cover_bg_80">#cc000000</color>
+    <color name="cover_bg_75">#bf000000</color>
+    <color name="cover_bg_70">#b3000000</color>
+    <color name="cover_bg_65">#a6000000</color>
+    <color name="cover_bg_60">#99000000</color>
+    <color name="cover_bg_55">#8c000000</color>
+    <color name="cover_bg_50">#80000000</color>
+    <color name="cover_bg_45">#73000000</color>
+    <color name="cover_bg_40">#66000000</color>
+    <color name="cover_bg_35">#59000000</color>
+    <color name="cover_bg_30">#4D000000</color>
+    <color name="cover_bg_20">#33000000</color>
+
+    <color name="cover_bg_50_white">#80ffffff</color>
+
 </resources>

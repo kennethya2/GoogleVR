@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,7 +58,7 @@ public class ActivityVRVideo extends AppCompatActivity {
      * The video view and its custom UI elements.
      */
     protected VrVideoView videoWidgetView;
-
+    private TextView titleTV;
     private TextView currentTimeTV;
     private TextView durationTimeTV;
 
@@ -87,6 +88,9 @@ public class ActivityVRVideo extends AppCompatActivity {
         public VrVideoView.Options options = new VrVideoView.Options();
     }
 
+    private VideoListActivity.VideoInfo mVideoInfo;
+    private ProgressBar mProgressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,10 +100,13 @@ public class ActivityVRVideo extends AppCompatActivity {
         seekBar.setOnSeekBarChangeListener(new SeekBarListener());
         statusText = (TextView) findViewById(R.id.status_text);
 
+        titleTV     = (TextView) findViewById(R.id.titleTV);
 
         // Bind input and output objects for the view.
         videoWidgetView = (VrVideoView) findViewById(R.id.video_view);
         videoWidgetView.setEventListener(new ActivityEventListener());
+
+        mProgressBar    = (ProgressBar) findViewById(R.id.loadingProgressBar);
 
         currentTimeTV   = (TextView) findViewById(R.id.currentTimeTV);
         durationTimeTV  = (TextView) findViewById(R.id.durationTimeTV);
@@ -127,8 +134,17 @@ public class ActivityVRVideo extends AppCompatActivity {
 
         loadVideoStatus = LOAD_VIDEO_STATUS_UNKNOWN;
 
+        mVideoInfo = (VideoListActivity.VideoInfo) getIntent().getSerializableExtra("data");
+        titleTV.setText(mVideoInfo.title);
+
         VideoInfo videoInfo = new VideoInfo();
         VrVideoView.Options options = new VrVideoView.Options();
+
+        videoInfo.formType = mVideoInfo.formType;
+//        videoInfo.filePath ="https://s3-ap-northeast-1.amazonaws.com/vr-resource/video/360%C2%B0+Icebergs+of+Greenland.+Part+I.+4%D0%9A+aerial+video.mp4";
+        videoInfo.filePath = mVideoInfo.filePath;
+        options.inputType = mVideoInfo.optionsType;
+        videoInfo.options = options;
 
         /*
         * Below Video File From Assets
@@ -142,11 +158,14 @@ public class ActivityVRVideo extends AppCompatActivity {
         /*
         * Below Video File From URL
         * */
-        videoInfo.formType = FILE_FROM_URL;
-        videoInfo.filePath ="https://s3-ap-northeast-1.amazonaws.com/vr-resource/video/360%C2%B0+Icebergs+of+Greenland.+Part+I.+4%D0%9A+aerial+video.mp4";
-        options.inputType = VrVideoView.Options.TYPE_MONO;
-        videoInfo.options = options;
+//        videoInfo.formType = FILE_FROM_URL;
+////        videoInfo.filePath ="https://s3-ap-northeast-1.amazonaws.com/vr-resource/video/360%C2%B0+Icebergs+of+Greenland.+Part+I.+4%D0%9A+aerial+video.mp4";
+//        videoInfo.filePath ="https://github.com/kennethya2/GoogleVR/raw/master/vr-resource/video/the-walking-dead.mp4";
+//
+//        options.inputType = VrVideoView.Options.TYPE_MONO;
+//        videoInfo.options = options;
 
+        mProgressBar.setVisibility(View.VISIBLE);
         startLoadVideo(videoInfo);
     }
 
@@ -312,6 +331,8 @@ public class ActivityVRVideo extends AppCompatActivity {
             updateStatusText();
             playBTN.setImageResource(R.drawable.pause);
             isPaused = false;
+
+            mProgressBar.setVisibility(View.GONE);
         }
 
         /**

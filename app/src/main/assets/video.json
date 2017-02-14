@@ -1,0 +1,21 @@
+{
+  "videos": [
+    {
+      "title": "The Walking Dead",
+      "filePath": "https://github.com/kennethya2/GoogleVR/raw/master/vr-resource/video/the-walking-dead.mp4",
+      "image": "",
+      "desc": "",
+      "formType":1,
+      "optionsType":1
+
+    },
+    {
+      "title": "Car Racing",
+      "filePath": "https://github.com/kennethya2/GoogleVR/raw/master/vr-resource/video/racing.mp4",
+      "image": "",
+      "desc": "",
+      "formType":1,
+      "optionsType":1
+    }
+]
+}

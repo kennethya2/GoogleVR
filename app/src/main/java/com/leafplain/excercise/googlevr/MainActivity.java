@@ -32,9 +32,14 @@ public class MainActivity extends AppCompatActivity {
             int id = view.getId();
             switch (id) {
                 case (R.id.videoBTN):
-                    Intent intentVrVideo = new Intent();
-                    intentVrVideo.setClass(mContext, ActivityVRVideo.class);
-                    mContext.startActivity(intentVrVideo);
+//                    Intent intentVrVideo = new Intent();
+//                    intentVrVideo.setClass(mContext, ActivityVRVideo.class);
+//                    mContext.startActivity(intentVrVideo);
+
+                    Intent intentVideoList = new Intent();
+                    intentVideoList.setClass(mContext, VideoListActivity.class);
+                    mContext.startActivity(intentVideoList);
+
                     break;
                 case (R.id.photoBTN):
                     Intent intentVrPhoto = new Intent();
