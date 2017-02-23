@@ -152,7 +152,7 @@ public class ActivityVRVideo extends AppCompatActivity {
 //        videoInfo.formType = FILE_FROM_LOCAL;
 //        videoInfo.filePath = "congo.mp4";
 //        options.inputType = VrVideoView.Options.TYPE_STEREO_OVER_UNDER;
-////      options.inputType = VrVideoView.Options.TYPE_MONO;
+      options.inputType = VrVideoView.Options.TYPE_MONO;
 //        videoInfo.options = options;
 
         /*

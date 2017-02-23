@@ -25,10 +25,21 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ActivityVRVideo"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            >
+            <intent-filter>
+                <!-- This marks the Activity as a Cardboard Activity and allows it
+             to be launched from the Cardboard app. -->
+                <category android:name="com.google.intent.category.CARDBOARD" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ActivityVRPhoto"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <category android:name="com.google.intent.category.CARDBOARD" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
