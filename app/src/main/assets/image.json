@@ -25,14 +25,6 @@
       "optionsType":1
     },
     {
-      "title": "Statue",
-      "filePath": "https://raw.githubusercontent.com/kennethya2/GoogleVR/master/vr-resource/image/statue.jpg",
-      "image": "",
-      "desc": "",
-      "formType":1,
-      "optionsType":1
-    },
-    {
       "title": "Street Corner",
       "filePath": "https://raw.githubusercontent.com/kennethya2/GoogleVR/master/vr-resource/image/street-corner.jpg",
       "image": "",
